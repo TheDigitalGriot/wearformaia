@@ -1,66 +1,56 @@
 import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { PresentationControls, ContactShadows } from "@react-three/drei";
+import { PresentationControls, ContactShadows, useGLTF } from "@react-three/drei";
 import { useSpring, animated } from "@react-spring/three";
-import type { Mesh } from "three";
+import type { Group } from "three";
 import SceneCanvas from "../SceneCanvas";
+import FitModel from "../FitModel";
 import { useReducedMotion } from "../useReducedMotion";
 
 /**
- * A · 3D GARMENT VIEWER — for the product cards + product pages (replaces the Avel reveals).
- * Drag to orbit (springs back), gentle idle rotation, hover lifts + brightens.
- *
- * DROP-IN: run  npx gltfjsx@latest mist-set.glb --transform --types -o MistSet.tsx
- * then replace <GarmentPlaceholder/> with <MistSet/> (useGLTF loads /media/models/mist-set.glb).
+ * A · 3D GARMENT VIEWER — grey cross-arm activewear figure (Mist palette).
+ * Drag to orbit (springs back), gentle idle rotation, hover lifts/scales.
+ * Swap URL to the Noir set GLB on the product page.
  */
-function GarmentPlaceholder() {
-  const ref = useRef<Mesh>(null);
+const URL = import.meta.env.BASE_URL + "media/models/garment.glb";
+useGLTF.preload(URL);
+
+function GarmentModel() {
+  const ref = useRef<Group>(null);
   const reduced = useReducedMotion();
   const [hovered, setHovered] = useState(false);
-  const { scale, emissive } = useSpring({
-    scale: hovered ? 1.06 : 1,
-    emissive: hovered ? 0.18 : 0.04,
-    config: { tension: 260, friction: 22 },
-  });
+  const { scale } = useSpring({ scale: hovered ? 1.06 : 1, config: { tension: 260, friction: 22 } });
 
   useFrame((_, delta) => {
-    if (ref.current && !reduced) ref.current.rotation.y += delta * 0.25;
+    if (ref.current && !reduced) ref.current.rotation.y += delta * 0.22;
   });
 
   return (
-    <animated.mesh
+    <animated.group
       ref={ref}
       scale={scale}
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
     >
-      {/* placeholder "draped set" stand-in — a soft capsule torso */}
-      <capsuleGeometry args={[0.7, 1.5, 12, 32]} />
-      <animated.meshStandardMaterial
-        color="#cdbfae"
-        roughness={0.75}
-        metalness={0.05}
-        emissive="#5e4d40"
-        emissiveIntensity={emissive}
-      />
-    </animated.mesh>
+      <FitModel url={URL} target={2.8} />
+    </animated.group>
   );
 }
 
 export default function GarmentViewer() {
   return (
-    <SceneCanvas camera={{ position: [0, 0, 5], fov: 32 }}>
+    <SceneCanvas camera={{ position: [0, 0, 5], fov: 34 }}>
       <PresentationControls
         global
         snap
         rotation={[0, 0, 0]}
-        polar={[-0.3, 0.3]}
-        azimuth={[-0.8, 0.8]}
+        polar={[-0.25, 0.25]}
+        azimuth={[-0.9, 0.9]}
         config={{ mass: 1, tension: 220, friction: 26 }}
       >
-        <GarmentPlaceholder />
+        <GarmentModel />
       </PresentationControls>
-      <ContactShadows position={[0, -1.4, 0]} opacity={0.35} scale={6} blur={2.6} far={3} color="#16110d" />
+      <ContactShadows position={[0, -1.5, 0]} opacity={0.4} scale={7} blur={2.6} far={3} color="#16110d" />
     </SceneCanvas>
   );
 }
