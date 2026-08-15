@@ -35,9 +35,6 @@ export default function Home() {
           <Link to="/in-form" className="btn">In form</Link>
         </div>
       </section>
-      <section className="closing">
-        <div className="wrap"><h2 className="display-xl serif-italic">Designed in Toronto.<br />Shaped for practice.</h2></div>
-      </section>
     </>
   );
 }
