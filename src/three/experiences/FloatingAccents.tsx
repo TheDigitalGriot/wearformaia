@@ -1,53 +1,73 @@
-import { useRef } from "react";
+import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Float } from "@react-three/drei";
+import { Float, useGLTF, Center } from "@react-three/drei";
 import * as THREE from "three";
 import SceneCanvas from "../SceneCanvas";
 import { useReducedMotion } from "../useReducedMotion";
 
 /**
- * D · FLOATING OBJECT ACCENTS — small tasteful props that parallax as you scroll/move.
- * Lowest-risk, quiet-luxury layer. The group drifts with the cursor; each prop floats.
- *
- * DROP-IN: swap each placeholder mesh for a small GLB prop (folded set, a ring, a bottle),
- * gltfjsx: npx gltfjsx@latest folded-set.glb --transform --types -o FoldedSet.tsx
+ * D · FLOATING PROPS — real pilates props lifted from the yoga_room_set
+ * (ball · towel · bottle · compact), each floating + the group parallaxing to the cursor.
+ * Props were extracted by mesh and packed into props.glb (828 KB).
  */
+const URL = import.meta.env.BASE_URL + "media/models/props.glb";
+useGLTF.preload(URL);
+
+function Prop({ scene, name, target = 1.4 }: { scene: THREE.Object3D; name: string; target?: number }) {
+  const { node, scale } = useMemo(() => {
+    const src = scene.getObjectByName(name);
+    const node = src ? src.clone(true) : null;
+    let scale = 1;
+    if (node) {
+      const box = new THREE.Box3().setFromObject(node);
+      const size = new THREE.Vector3();
+      box.getSize(size);
+      scale = target / (Math.max(size.x, size.y, size.z) || 1);
+    }
+    return { node, scale };
+  }, [scene, name, target]);
+  if (!node) return null;
+  return (
+    <Center scale={scale}>
+      <primitive object={node} />
+    </Center>
+  );
+}
+
 function Accents() {
+  const { scene } = useGLTF(URL);
   const group = useRef<THREE.Group>(null);
   const reduced = useReducedMotion();
 
   useFrame((state) => {
     if (!group.current || reduced) return;
     const { x, y } = state.pointer;
-    group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, x * 0.3, 0.04);
-    group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, -y * 0.2, 0.04);
+    group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, x * 0.25, 0.04);
+    group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, -y * 0.15, 0.04);
   });
-
-  const floatProps = { speed: 1.4, rotationIntensity: 0.5, floatIntensity: 0.9 } as const;
 
   return (
     <group ref={group}>
-      <Float {...floatProps}>
-        {/* folded-set placeholder */}
-        <mesh position={[-1.8, 0.4, 0]} castShadow>
-          <boxGeometry args={[1.1, 0.35, 0.8]} />
-          <meshStandardMaterial color="#cdbfae" roughness={0.8} />
-        </mesh>
-      </Float>
-      <Float {...floatProps} speed={1.1} floatIntensity={1.2}>
-        {/* ring / band placeholder */}
-        <mesh position={[1.7, -0.2, 0.4]} rotation={[Math.PI / 2.5, 0, 0]} castShadow>
-          <torusGeometry args={[0.5, 0.14, 20, 48]} />
-          <meshStandardMaterial color="#8a7c6d" roughness={0.5} metalness={0.2} />
-        </mesh>
-      </Float>
-      <Float {...floatProps} speed={1.7} rotationIntensity={0.8}>
-        {/* small bottle / prop placeholder */}
-        <mesh position={[0.2, 0.9, -0.6]} castShadow>
-          <capsuleGeometry args={[0.22, 0.6, 8, 20]} />
-          <meshStandardMaterial color="#3b2f27" roughness={0.4} metalness={0.1} />
-        </mesh>
-      </Float>
+      <group position={[-2.1, 0.4, 0]}>
+        <Float speed={1.4} rotationIntensity={0.5} floatIntensity={0.9}>
+          <Prop scene={scene} name="ball" target={1.7} />
+        </Float>
+      </group>
+      <group position={[2.0, -0.3, 0.3]}>
+        <Float speed={1.1} rotationIntensity={0.4} floatIntensity={1.1}>
+          <Prop scene={scene} name="towel" target={1.4} />
+        </Float>
+      </group>
+      <group position={[0.4, 1.05, -0.5]}>
+        <Float speed={1.7} rotationIntensity={0.7} floatIntensity={1.0}>
+          <Prop scene={scene} name="bottle" target={1.5} />
+        </Float>
+      </group>
+      <group position={[-0.5, -1.15, 0.6]}>
+        <Float speed={1.3} rotationIntensity={0.9} floatIntensity={0.8}>
+          <Prop scene={scene} name="compact" target={1.1} />
+        </Float>
+      </group>
     </group>
   );
 }
