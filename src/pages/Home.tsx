@@ -35,6 +35,14 @@ export default function Home() {
           <Link to="/in-form" className="btn">In form</Link>
         </div>
       </section>
+      <section className="studioband">
+        <img className="studioband__img" src={asset("media/img/studio-banner.webp")} alt="formaia — studio to street" />
+        <div className="studioband__copy">
+          <p className="eyebrow">Studio to street</p>
+          <h2 className="display-lg">In the studio.<br /><span className="serif-italic">Into the light.</span></h2>
+          <p>Soft rib, clean seams, quiet branding. Pieces cut for alignment and worn with intention — in the studio, on the court, into the light.</p>
+        </div>
+      </section>
     </>
   );
 }
