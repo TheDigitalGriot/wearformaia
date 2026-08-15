@@ -97,3 +97,16 @@
 .ftr__nav a{color:var(--sand)}
 .ftr__nav a:hover{color:var(--paper)}
 .serif{font-family:var(--font-display)}
+
+/* r3f lab (preview gallery) */
+.r3flab{background:var(--paper)}
+.r3flab__head{padding-block:clamp(48px,8vw,110px) clamp(32px,5vw,64px);display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.r3flab__sub{max-width:60ch;color:var(--umber);font-size:15px;line-height:1.65}
+.r3flab__sub code{background:var(--paper-2);padding:2px 6px;border-radius:3px;font-size:13px}
+.r3flab__bay{border-top:1px solid var(--line)}
+.r3flab__meta{display:flex;gap:20px;align-items:flex-start;padding-block:clamp(28px,4vw,52px)}
+.r3flab__tag{flex:none;width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-size:16px;font-family:var(--font-display)}
+.r3flab__title{font-size:clamp(22px,3vw,30px);margin:0;color:var(--ink)}
+.r3flab__dest{margin:.25rem 0 0;font-size:11px;letter-spacing:var(--track);text-transform:uppercase;color:var(--taupe)}
+.r3flab__note{margin:.6rem 0 0;max-width:64ch;color:var(--umber);font-size:14px;line-height:1.6}
+.r3flab__loading{position:absolute;inset:0;display:grid;place-items:center;color:var(--sand);font-size:12px;letter-spacing:var(--track);text-transform:uppercase}
