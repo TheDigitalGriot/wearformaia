@@ -17,11 +17,13 @@ function Studio() {
   const group = useRef<THREE.Group>(null);
   const reduced = useReducedMotion();
 
-  useFrame((state) => {
-    if (!group.current || reduced) return;
-    const { x, y } = state.pointer;
-    group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, x * 0.22, 0.05);
-    group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, -y * 0.06, 0.05);
+  useFrame((state, delta) => {
+    if (!group.current) return;
+    // slow continuous turntable spin
+    if (!reduced) group.current.rotation.y += delta * 0.14;
+    // subtle vertical tilt toward the cursor, without fighting the spin
+    const tiltX = reduced ? 0 : -state.pointer.y * 0.05;
+    group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, tiltX, 0.04);
   });
 
   return (

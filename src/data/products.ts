@@ -3,7 +3,7 @@ export type Feature = {
 };
 export type Product = {
   slug: string; name: string; tagline: string; price: string;
-  palette: "mist" | "noir"; hero: string; gallery: string[]; features: Feature[];
+  palette: "mist" | "noir"; hero: string; frames?: string[]; gallery: string[]; features: Feature[];
 };
 
 export const products: Product[] = [
@@ -14,6 +14,7 @@ export const products: Product[] = [
     price: "$168",
     palette: "mist",
     hero: "/media/img/mist-set-cut.webp",
+    frames: ["/media/img/frames/mist-set-1.webp", "/media/img/frames/mist-set-2.webp", "/media/img/frames/mist-set-3.webp"],
     gallery: ["/media/img/in-form-2.webp", "/media/img/studio-banner.webp", "/media/img/hero-master.webp"],
     features: [
       { id: "waistband", label: "Crossover waistband", note: "High-rise V-front that holds through every movement.", avl: "/media/avl/mist-waistband.avl", poster: "/media/img/mist-set-cut.webp" },
@@ -28,6 +29,7 @@ export const products: Product[] = [
     price: "$184",
     palette: "noir",
     hero: "/media/img/noir-set-cut.webp",
+    frames: ["/media/img/frames/noir-set-1.webp", "/media/img/frames/noir-set-2.webp", "/media/img/frames/noir-set-3.webp"],
     gallery: ["/media/img/studio-banner.webp", "/media/img/in-form-2.webp", "/media/img/hero-master.webp"],
     features: [
       { id: "tie", label: "Tie-front wrap", note: "A soft knot that frames — adjust to your line.", avl: "/media/avl/noir-tie.avl", poster: "/media/img/noir-set-cut.webp" },

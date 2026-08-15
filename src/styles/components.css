@@ -126,3 +126,16 @@
   padding:clamp(28px,5vw,72px);padding-bottom:clamp(40px,6vw,84px);color:var(--paper)}
 .studio3d__copy .eyebrow{color:var(--sand)}
 .studio3d__copy h2{color:var(--paper);margin:.4rem 0 0}
+
+/* product turntable (front/side/back on hover-press) */
+.card__turn{position:relative;aspect-ratio:5/8;overflow:hidden;background:#f1ece7}
+.card--mist .card__turn{background:#f3efec}
+.card--noir .card__turn{background:#eee9e6}
+.card__turn img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .3s ease;pointer-events:none}
+.card__turn img.is-on{opacity:1}
+.card__dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:2}
+.card__dots i{width:6px;height:6px;border-radius:50%;background:var(--taupe);opacity:.35;transition:.28s ease}
+.card__dots i.on{opacity:1;background:var(--ink);width:18px;border-radius:3px}
+
+/* gym sits directly on studio-to-street — no gap */
+.studio3d,.studioband{padding-block:0}

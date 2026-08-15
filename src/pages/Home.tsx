@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import ScrollFilmHero from "../components/ScrollFilmHero";
+import ProductCard from "../components/ProductCard";
 import InView from "../three/InView";
 import { products } from "../data/products";
 import { asset } from "../lib/asset";
@@ -25,12 +26,7 @@ export default function Home() {
           <Link to="/shop" className="btn">Shop the edit</Link>
         </div>
         <div className="sets__grid">
-          {products.map((p) => (
-            <Link key={p.slug} to={`/product/${p.slug}`} className={`card card--${p.palette}`}>
-              <div className="card__media"><img src={asset(p.hero)} alt={p.name} /></div>
-              <div className="card__row"><span>{p.name}</span><span>{p.price}</span></div>
-            </Link>
-          ))}
+          {products.map((p) => <ProductCard key={p.slug} p={p} />)}
         </div>
       </section>
       <section className="r3d wrap">
@@ -54,14 +50,6 @@ export default function Home() {
           <Link to="/in-form" className="btn">In form</Link>
         </div>
       </section>
-      <section className="studioband">
-        <img className="studioband__img" src={asset("media/img/studio-banner.webp")} alt="formaia — studio to street" />
-        <div className="studioband__copy">
-          <p className="eyebrow">Studio to street</p>
-          <h2 className="display-lg">In the studio.<br /><span className="serif-italic">Into the light.</span></h2>
-          <p>Soft rib, clean seams, quiet branding. Pieces cut for alignment and worn with intention — in the studio, on the court, into the light.</p>
-        </div>
-      </section>
       <section className="studio3d">
         <InView height="100%" rootMargin="500px">
           <Suspense fallback={null}><StudioScene /></Suspense>
@@ -69,6 +57,14 @@ export default function Home() {
         <div className="studio3d__copy">
           <p className="eyebrow">Her own world</p>
           <h2 className="display-lg">Step inside<br /><span className="serif-italic">the practice.</span></h2>
+        </div>
+      </section>
+      <section className="studioband">
+        <img className="studioband__img" src={asset("media/img/studio-banner.webp")} alt="formaia — studio to street" />
+        <div className="studioband__copy">
+          <p className="eyebrow">Studio to street</p>
+          <h2 className="display-lg">In the studio.<br /><span className="serif-italic">Into the light.</span></h2>
+          <p>Soft rib, clean seams, quiet branding. Pieces cut for alignment and worn with intention — in the studio, on the court, into the light.</p>
         </div>
       </section>
     </>
