@@ -1,10 +1,13 @@
 import { useEffect, RefObject } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 /**
- * useScrollScrub — smooth scroll-world scrub.
- * Scroll sets a target time; a rAF loop eases video.currentTime toward it,
- * so motion stays fluid between scroll events. Pair with an all-keyframe
- * (all-intra) encode so seeks are frame-accurate and non-choppy.
+ * useScrollScrub — GSAP ScrollTrigger scrub of the film's currentTime.
+ * `scrub` adds a smoothing lag so the video eases toward the scroll position
+ * instead of snapping to every scroll event — fluid on a long, all-intra film.
  */
 export function useScrollScrub(
   sectionRef: RefObject<HTMLElement>,
@@ -15,33 +18,30 @@ export function useScrollScrub(
     const video = videoRef.current;
     if (!section || !video) return;
 
-    let target = 0;
-    let raf = 0;
-    let running = false;
+    let ctx: ReturnType<typeof gsap.context> | null = null;
 
-    const computeTarget = () => {
-      const rect = section.getBoundingClientRect();
-      const total = section.offsetHeight - window.innerHeight;
-      const progress = Math.min(1, Math.max(0, -rect.top / (total || 1)));
-      target = progress * (video.duration || 0);
+    const setup = () => {
+      const state = { t: 0 };
+      ctx = gsap.context(() => {
+        gsap.to(state, {
+          t: () => video.duration || 0,
+          ease: "none",
+          onUpdate: () => { if (video.duration) video.currentTime = state.t; },
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.6,          // smoothing lag (seconds)
+            invalidateOnRefresh: true,
+          },
+        });
+      }, section);
+      ScrollTrigger.refresh();
     };
-    const tick = () => {
-      const diff = target - video.currentTime;
-      if (Math.abs(diff) < 0.006) { running = false; return; }
-      video.currentTime += diff * 0.18;            // ease toward target
-      raf = requestAnimationFrame(tick);
-    };
-    const kick = () => { computeTarget(); if (!running) { running = true; raf = requestAnimationFrame(tick); } };
 
-    const prime = () => { video.pause(); computeTarget(); video.currentTime = target; };
-    video.addEventListener("loadedmetadata", prime);
-    window.addEventListener("scroll", kick, { passive: true });
-    window.addEventListener("resize", kick);
-    return () => {
-      video.removeEventListener("loadedmetadata", prime);
-      window.removeEventListener("scroll", kick);
-      window.removeEventListener("resize", kick);
-      cancelAnimationFrame(raf);
-    };
+    if (video.readyState >= 1) setup();
+    else video.addEventListener("loadedmetadata", setup, { once: true });
+
+    return () => { ctx?.revert(); };
   }, [sectionRef, videoRef]);
 }
