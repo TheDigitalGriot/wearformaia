@@ -7,9 +7,11 @@ export default function Home() {
   return (
     <>
       <ScrollFilmHero />
-      <section className="statement wrap">
-        <p className="eyebrow">formaia — activewear</p>
-        <h2 className="display-lg">Lived lightly.<br /><span className="serif-italic">Worn with presence.</span></h2>
+      <section className="statement" style={{ backgroundImage: `url(${asset("media/img/hero-master.webp")})` }}>
+        <div className="wrap statement__inner">
+          <p className="eyebrow">formaia — activewear</p>
+          <h2 className="display-lg">Lived lightly.<br /><span className="serif-italic">Worn with presence.</span></h2>
+        </div>
       </section>
       <section className="sets wrap">
         <div className="sets__head">

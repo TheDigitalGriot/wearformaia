@@ -10,7 +10,13 @@
 @media(max-width:720px){.hdr__left li:nth-child(2){display:none}.hdr__left,.hdr__right{gap:16px}.hdr__mark img{width:104px}}
 
 /* home statement */
-.statement{text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center}
+.statement{position:relative;min-height:88vh;display:grid;place-items:center;text-align:center;
+  background:var(--espresso) center/cover no-repeat;color:var(--paper);padding-block:0;overflow:hidden}
+.statement::before{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(22,17,13,.22),rgba(22,17,13,.40) 55%,rgba(22,17,13,.30))}
+.statement__inner{position:relative;z-index:1;display:flex;flex-direction:column;gap:14px;align-items:center}
+.statement h2{color:var(--paper)}
+.statement .eyebrow{color:var(--sand)}
 .sets__head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:36px;flex-wrap:wrap;gap:16px}
 .sets__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(16px,3vw,40px)}
 @media(max-width:720px){.sets__grid{grid-template-columns:1fr}}
