@@ -24,7 +24,7 @@ export default function ScrollFilmHero() {
           muted
           playsInline
           preload="auto"
-          poster={asset("media/scroll-film-poster.jpg")}
+          poster={asset("media/img/hero-master.webp")}
         />
         <div className="film__grade" />
         <div className="film__caption wrap"><span className="eyebrow">move in form</span></div>

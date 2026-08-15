@@ -26,7 +26,7 @@ export default function Home() {
         </div>
       </section>
       <section className="split">
-        <div className="split__media"><img src={asset("media/products/mist-2.jpg")} alt="" /></div>
+        <div className="split__media"><img src={asset("media/img/in-form-2.webp")} alt="" /></div>
         <div className="split__copy">
           <h2 className="display-lg">Pilates form.<br /><span className="serif-italic">Everyday ease.</span></h2>
           <p>Second-skin fabric that moves and returns. Worn from the reformer to the rest of the day.</p>
