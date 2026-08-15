@@ -1,0 +1,13 @@
+.film{position:relative;height:240vh;background:var(--ink)}
+.film__stick{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center}
+.film__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.film__grade{position:absolute;inset:0;background:
+  radial-gradient(120% 80% at 50% 40%,transparent 40%,rgba(22,17,13,.35) 100%);pointer-events:none}
+.film__caption{position:absolute;top:28px;left:0;right:0;color:var(--paper);opacity:.9}
+.film__caption .eyebrow{color:var(--sand)}
+.film__beats{position:absolute;left:var(--pad);bottom:96px;margin:0;padding:0;list-style:none;
+  color:var(--sand);font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.5;display:none}
+.film__beats span{display:inline-block;width:34px;color:var(--taupe)}
+.film__end{position:absolute;bottom:56px;left:0;right:0;display:flex;flex-direction:column;
+  align-items:center;gap:22px;color:var(--paper);text-align:center}
+.film__mark{width:min(46vw,340px);filter:invert(1)}

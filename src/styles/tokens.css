@@ -1,0 +1,19 @@
+:root{
+  /* warm quiet-luxury palette — rich blacks · deep browns · warm neutrals */
+  --ink:#16110d;          /* near-black, warm */
+  --espresso:#3b2f27;     /* deep brown */
+  --umber:#5e4d40;
+  --taupe:#8a7c6d;
+  --sand:#cdbfae;
+  --paper:#f4efe8;        /* warm neutral page */
+  --paper-2:#ece5da;
+  --line:rgba(22,17,13,.14);
+  --line-soft:rgba(22,17,13,.08);
+
+  --font-display:"Cormorant Garamond",Georgia,serif;
+  --font-sans:"Jost",system-ui,-apple-system,sans-serif;
+
+  --wrap:1240px;
+  --pad:clamp(20px,5vw,64px);
+  --track:.28em;          /* the wide letter-spacing of the wordmark labels */
+}
